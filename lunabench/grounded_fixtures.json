@@ -1,0 +1,156 @@
+{
+  "corpus_id": "public-technical-docs-v1",
+  "frozen_on": "2026-09-17",
+  "retrieved_on": "2026-09-17",
+  "disclosure": "Small curated public-source fixtures for Exa-inspired extraction, answering, and synthesis; not Exa production queries, retrieved result sets, or traffic replay. Excerpts preserve source wording with whitespace normalized; separately selected passages are separated by blank lines. Missing evidence means absent from these excerpts, not necessarily absent from the full documentation. No live retrieval occurs during a benchmark.",
+  "sources": [
+    {
+      "id": "EXA_SEARCH",
+      "title": "Exa Search API reference",
+      "url": "https://exa.ai/docs/reference/search",
+      "locator": "Introduction; OpenAPI POST /search; SearchRequest.includeDomains and numResults",
+      "excerpt": "The search endpoint lets you search the web and extract contents from the results.\n\nPOST /search\nPerform a search with an Exa prompt-engineered query and retrieve a list of relevant results. Optionally get contents.\n\nincludeDomains: List of domains or domain paths to include in the search. Each entry can be a hostname (for example, `example.com`), a hostname with a path prefix (for example, `example.com/docs`), or a wildcard subdomain (for example, `*.example.com`). If specified, results will only come from the matching domains or paths. Use this parameter for domain or path filtering instead of adding a `site:` operator to the query.\n\nnumResults: Number of results to return. Limits vary by search type. The maximum public limit is 100 results. Contact sales (hello@exa.ai) to discuss higher limits.\ndefault: 10"
+    },
+    {
+      "id": "EXA_CONTENTS",
+      "title": "Exa Contents API reference",
+      "url": "https://exa.ai/docs/reference/get-contents",
+      "locator": "Introduction; OpenAPI POST /contents; ContentsRequest.text and highlights",
+      "excerpt": "Get the full page contents, summaries, and metadata for a list of URLs.\n\nReturns instant results from our cache, with automatic live crawling as fallback for uncached pages.\n\nPOST /contents\n\ntext: Text extraction options for each result.\nIf true, returns full page text with default settings. If false, disables text return.\nmaxCharacters: Maximum character limit for the full page text. Useful for controlling response size and API costs. Maximum supported value is 10000.\n\nincludeSections: Best-effort. Only include content classified into these semantic page sections. Section classification may be unavailable or incomplete for some pages; validate output if strict filtering is required. Use maxAgeHours: 0 when you need this applied to freshly fetched content.\n\nhighlights: Text snippets the LLM identifies as most relevant from each page."
+    },
+    {
+      "id": "EXA_ANSWER",
+      "title": "Exa Answer API reference",
+      "url": "https://exa.ai/docs/reference/answer",
+      "locator": "Introduction; OpenAPI POST /answer; AnswerRequest.stream and outputSchema",
+      "excerpt": "Get an LLM answer to a question informed by Exa search results. `/answer` performs an Exa search and uses an LLM to generate either:\n1. A direct answer for specific queries. (i.e. \"What is the capital of France?\" would return \"Paris\")\n2. A detailed summary with citations for open-ended queries (i.e. \"What is the state of ai in healthcare?\" would return a summary with citations to relevant sources)\n\nThe response includes both the generated answer and the sources used to create it. The endpoint also supports streaming (as `stream=True`), which will return tokens as they are generated.\n\nPOST /answer\n\nstream: If true, the response is returned as a server-sent events (SSE) stream.\n\noutputSchema: A JSON Schema Draft 7 specification for the desired answer structure. When provided, the answer is returned as a structured object matching the schema instead of a plain string."
+    },
+    {
+      "id": "EXA_QUEUE",
+      "title": "Exa Search API response header definitions",
+      "url": "https://exa.ai/docs/reference/search",
+      "locator": "OpenAPI response headers x-request-id, x-exa-queued, x-exa-queue-ms and components.headers",
+      "excerpt": "x-request-id: Unique identifier for the request. Matches the `requestId` field returned in response bodies that carry one.\n\nx-exa-queued: Whether the request waited in the customer rate-limit queue before being admitted.\n\nx-exa-queue-ms: Total milliseconds the request waited in the customer rate-limit queue."
+    },
+    {
+      "id": "HTTP_RETRY",
+      "title": "RFC 9110 HTTP Semantics: Retry-After",
+      "url": "https://www.rfc-editor.org/rfc/rfc9110.html#section-10.2.3",
+      "locator": "Section 10.2.3, June 2022",
+      "excerpt": "Servers send the \"Retry-After\" header field to indicate how long the user agent ought to wait before making a follow-up request. When sent with a 503 (Service Unavailable) response, Retry-After indicates how long the service is expected to be unavailable to the client. When sent with any 3xx (Redirection) response, Retry-After indicates the minimum time that the user agent is asked to wait before issuing the redirected request.\n\nThe Retry-After field value can be either an HTTP-date or a number of seconds to delay after receiving the response.\n\nRetry-After = HTTP-date / delay-seconds\n\nA delay-seconds value is a non-negative decimal integer, representing time in seconds."
+    },
+    {
+      "id": "HTTP_IDEMPOTENT",
+      "title": "RFC 9110 HTTP Semantics: Idempotent Methods",
+      "url": "https://www.rfc-editor.org/rfc/rfc9110.html#section-9.2.2",
+      "locator": "Section 9.2.2, June 2022",
+      "excerpt": "A request method is considered \"idempotent\" if the intended effect on the server of multiple identical requests with that method is the same as the effect for a single such request. Of the request methods defined by this specification, PUT, DELETE, and safe request methods are idempotent.\n\nIdempotent methods are distinguished because the request can be repeated automatically if a communication failure occurs before the client is able to read the server's response.\n\nA client SHOULD NOT automatically retry a request with a non-idempotent method unless it has some means to know that the request semantics are actually idempotent, regardless of the method, or some means to detect that the original request was never applied.\n\nA proxy MUST NOT automatically retry non-idempotent requests. A client SHOULD NOT automatically retry a failed automatic retry."
+    },
+    {
+      "id": "HTTP_503",
+      "title": "RFC 9110 HTTP Semantics: 503 Service Unavailable",
+      "url": "https://www.rfc-editor.org/rfc/rfc9110.html#section-15.6.4",
+      "locator": "Section 15.6.4, June 2022",
+      "excerpt": "The 503 (Service Unavailable) status code indicates that the server is currently unable to handle the request due to a temporary overload or scheduled maintenance, which will likely be alleviated after some delay. The server MAY send a Retry-After header field (Section 10.2.3) to suggest an appropriate amount of time for the client to wait before retrying the request.\n\nNote: The existence of the 503 status code does not imply that a server has to use it when becoming overloaded. Some servers might simply refuse the connection."
+    },
+    {
+      "id": "SSE",
+      "title": "WHATWG HTML Standard: Server-sent events",
+      "url": "https://html.spec.whatwg.org/multipage/server-sent-events.html",
+      "locator": "Sections 9.2.1, 9.2.2, 9.2.5 and 9.2.6; Living Standard snapshot 2026-09-17",
+      "excerpt": "The default event type is \"message\".\n\nEvent streams are always decoded as UTF-8. There is no way to specify another character encoding.\n\nEvent stream requests can be redirected using HTTP 301 and 307 redirects as with normal HTTP requests. Clients will reconnect if the connection is closed; a client can be told to stop reconnecting using the HTTP 204 No Content response code.\n\nA reconnection time, in milliseconds. This must initially be an implementation-defined value, probably in the region of a few seconds.\n\nThis event stream format's MIME type is text/event-stream.\n\nIf the line is empty (a blank line)\nDispatch the event, as defined below.\n\nIf the line starts with a U+003A COLON character (:)\nIgnore the line.\n\nOnce the end of the file is reached, any pending data must be discarded. (If the file ends in the middle of an event, before the final empty line, the incomplete event is not dispatched.)\n\nIf the field name is \"data\"\nAppend the field value to the data buffer, then append a single U+000A LINE FEED (LF) character to the data buffer.\n\nIf the field name is \"retry\"\nIf the field value consists of only ASCII digits, then interpret the field value as an integer in base ten, and set the event stream's reconnection time to that integer. Otherwise, ignore the field."
+    }
+  ],
+  "cases": {
+    "extraction": [
+      {
+        "id": "retrieval-policy",
+        "query": "Extract these fields: search_path (HTTP path only); domain_filter (parameter name for restricting domains); default_num_results (decimal string); contents_path (HTTP path only); contents_uncached_fallback (copy the three-word mechanism named after 'with'); guaranteed_freshness_seconds (decimal string, or null if the excerpts do not specify a guarantee).",
+        "expected": [
+          {"field": "search_path", "value": "/search", "source_id": "EXA_SEARCH"},
+          {"field": "domain_filter", "value": "includeDomains", "source_id": "EXA_SEARCH"},
+          {"field": "default_num_results", "value": "10", "source_id": "EXA_SEARCH"},
+          {"field": "contents_path", "value": "/contents", "source_id": "EXA_CONTENTS"},
+          {"field": "contents_uncached_fallback", "value": "automatic live crawling", "source_id": "EXA_CONTENTS"},
+          {"field": "guaranteed_freshness_seconds", "value": null, "source_id": null}
+        ]
+      },
+      {
+        "id": "answer-contract",
+        "query": "Extract these fields: answer_path (HTTP path only); structured_output_parameter (parameter name); answer_schema_draft (format 'Draft N'); streaming_parameter (parameter name); queue_wait_header (lowercase HTTP header name); guaranteed_answer_latency_ms (decimal string, or null if absent).",
+        "expected": [
+          {"field": "answer_path", "value": "/answer", "source_id": "EXA_ANSWER"},
+          {"field": "structured_output_parameter", "value": "outputSchema", "source_id": "EXA_ANSWER"},
+          {"field": "answer_schema_draft", "value": "Draft 7", "source_id": "EXA_ANSWER"},
+          {"field": "streaming_parameter", "value": "stream", "source_id": "EXA_ANSWER"},
+          {"field": "queue_wait_header", "value": "x-exa-queue-ms", "source_id": "EXA_QUEUE"},
+          {"field": "guaranteed_answer_latency_ms", "value": null, "source_id": null}
+        ]
+      },
+      {
+        "id": "stream-protocol",
+        "query": "Extract these fields for WHATWG EventSource: media_type; encoding (canonical spelling used by the source); default_event_type; stop_reconnect_status (decimal string); retry_numeric_base (decimal string); fixed_initial_reconnect_ms (decimal string, or null if implementation-defined).",
+        "expected": [
+          {"field": "media_type", "value": "text/event-stream", "source_id": "SSE"},
+          {"field": "encoding", "value": "UTF-8", "source_id": "SSE"},
+          {"field": "default_event_type", "value": "message", "source_id": "SSE"},
+          {"field": "stop_reconnect_status", "value": "204", "source_id": "SSE"},
+          {"field": "retry_numeric_base", "value": "10", "source_id": "SSE"},
+          {"field": "fixed_initial_reconnect_ms", "value": null, "source_id": null}
+        ]
+      },
+      {
+        "id": "failure-contract",
+        "query": "Extract these fields: retry_header (canonical capitalization, cite HTTP_RETRY); retry_delay_unit (plural unit); retry_date_format (exact grammar token); temporary_unavailable_status (decimal string, cite HTTP_503); proxy_non_idempotent_auto_retry (RFC requirement phrase in capitals); overloaded_server_must_send_503 (normalize to 'yes' or 'no'); mandatory_retry_attempts (decimal string, or null if not specified).",
+        "expected": [
+          {"field": "retry_header", "value": "Retry-After", "source_id": "HTTP_RETRY"},
+          {"field": "retry_delay_unit", "value": "seconds", "source_id": "HTTP_RETRY"},
+          {"field": "retry_date_format", "value": "HTTP-date", "source_id": "HTTP_RETRY"},
+          {"field": "temporary_unavailable_status", "value": "503", "source_id": "HTTP_503"},
+          {"field": "proxy_non_idempotent_auto_retry", "value": "MUST NOT", "source_id": "HTTP_IDEMPOTENT"},
+          {"field": "overloaded_server_must_send_503", "value": "no", "source_id": "HTTP_503"},
+          {"field": "mandatory_retry_attempts", "value": null, "source_id": null}
+        ]
+      }
+    ],
+    "answer": [
+      {
+        "id": "retrieval-to-answer",
+        "query": "A documentation assistant must search only an approved docs domain, keep evidence snippets, and answer an open-ended question with citations. Which documented capabilities would you use for discovery, content acquisition, and answer formatting? Distinguish full text from highlights. Explain why the supplied cache wording is not evidence of a fixed freshness guarantee. Include one concrete limitation to verify before launch.",
+        "required_sources": ["EXA_SEARCH", "EXA_CONTENTS", "EXA_ANSWER"]
+      },
+      {
+        "id": "stream-completion",
+        "query": "An engineer argues that an HTTP stream closing proves a complete answer and that every received SSE line is a text token. Explain what the supplied stream framing and Answer documentation actually establish, how comments and an unfinished final event should be treated, and why application-level completion needs separate evidence. Distinguish browser EventSource reconnect behavior from permission to repeat a POST request.",
+        "required_sources": ["SSE", "EXA_ANSWER", "HTTP_IDEMPOTENT"]
+      },
+      {
+        "id": "queue-versus-outage",
+        "query": "A dashboard labels x-exa-queue-ms as total user latency and treats Retry-After as a measured duration of the request that just failed. Correct both interpretations. Explain the two allowed Retry-After value forms, what a 503 indicates, and why absence of a 503 cannot establish absence of overload. State which additional client observations are needed rather than inventing latency numbers.",
+        "required_sources": ["EXA_QUEUE", "HTTP_RETRY", "HTTP_503"]
+      },
+      {
+        "id": "safe-reconnection",
+        "query": "A client sends POST requests to the documented Search and Answer endpoints. After a connection failure, the team proposes retrying automatically because the requests retrieve information. What does the HTTP idempotency guidance allow a client to conclude, what evidence would justify a retry, and what cannot be established from the supplied endpoint descriptions? Separate client and proxy requirements and avoid claiming an undocumented idempotency guarantee.",
+        "required_sources": ["EXA_SEARCH", "EXA_ANSWER", "HTTP_IDEMPOTENT"]
+      }
+    ],
+    "synthesis": [
+      {
+        "id": "evidence-pipeline",
+        "query": "Write an implementation decision brief for a source-grounded technical research assistant. Connect domain-scoped search, full-text versus highlight retrieval, structured extraction, and cited answers. Explain the trade-offs and explicit evidence gaps around freshness, section filtering, and answer quality. Propose a concrete evaluation plan that keeps schema validation separate from factual support and measures queue delay separately from user-visible latency. Recommendations must be labeled as recommendations, not quoted vendor guarantees.",
+        "required_sources": ["EXA_SEARCH", "EXA_CONTENTS", "EXA_ANSWER", "EXA_QUEUE"]
+      },
+      {
+        "id": "streaming-reliability",
+        "query": "Write a design-review brief for a streaming research-answer client. Reconcile (rather than conflate) WHATWG EventSource reconnection, SSE framing, application completion, POST retry safety, service overload, and Retry-After. Challenge the proposals 'EOF is success', 'all closed POSTs are safe to replay', and 'no 503 means no overload'. Recommend an observation and recovery policy, distinguishing directly supported rules, engineering recommendations, and application-specific contracts absent from the excerpts.",
+        "required_sources": ["SSE", "EXA_ANSWER", "HTTP_IDEMPOTENT", "HTTP_RETRY", "HTTP_503"]
+      },
+      {
+        "id": "latency-study",
+        "query": "Write a benchmark planning memo comparing schema-constrained fact extraction with cited answer generation from a fixed public corpus. Use the documented content, answer, queue, SSE, and overload semantics to specify what to measure and what counts as a valid result. Address cache/freshness uncertainty, line-versus-event-versus-token distinctions, queue versus end-to-end latency, incomplete streams, and overload visibility. State explicitly why these excerpts cannot identify Exa production traffic distributions, model speed, or latency SLAs. End with a prioritized measurement plan, not invented numerical performance claims.",
+        "required_sources": ["EXA_CONTENTS", "EXA_ANSWER", "EXA_QUEUE", "SSE", "HTTP_503"]
+      }
+    ]
+  }
+}

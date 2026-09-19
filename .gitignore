@@ -1,0 +1,33 @@
+# Generated benchmark output may contain provider and machine metadata.
+/results/*
+!/results/.gitkeep
+*.jsonl
+*.jsonl.md
+*.log
+*.log.*
+
+# Local credentials and private keys must never enter a public checkout.
+.env
+.env.*
+.aws/
+.ssh/
+.netrc
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Python bytecode, environments, and local tool output.
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+build/
+dist/
+*.egg-info/
+.DS_Store
